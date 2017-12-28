@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>Message manager</title>
+            <script th:inline="javascript"> 
+                /*<![CDATA[*/
+            function addMessage() {
+                var msgtitle = /*[[${messagetitle}]]*/ "atitle";
+                var msgcontent = /*[[${messagecontent}]]*/ "acontent";
+                console.log('MessageContentTable:', msgtitle, "|", msgcontent);
+                var domelement = document.getElementById("MessageContentTable");
+                var tbody = document.createElement("tbody");
+                tbody.innerHTML = "<tr><td><b>Title:<b></td><td>" + msgtitle + "</td></tr><tr><td><b>Message:</b><td>" + msgcontent + "</td></tr>";
+
+                domelement.appendChild(tbody);
+                var arr = tbody.getElementsByTagName('script');
+                for (var n = 0; n < arr.length; n++)
+                    eval(arr[n].innerHTML);//run script inside div
+            }
+            /*]]>*/
+            </script>
+    </head>
+    <body onload="addMessage();">
+        <hr>
+        </hr>
+        <h2> Message board </h2>
+        <p></p>
+        <h3> Add message </h3>
+        <p></p>
+        <form method="POST" action="/messages">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Title:</td>
+                        <td>
+                            <input name="title" type="TEXT" id="title"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="TOP">Message: </td>
+                        <td>
+                            <textarea cols="60" name="content" rows="5" id="content"> </textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                <input name="message" type="SUBMIT" value="Submit message"/>
+            </p>
+        </form>
+        <hr>
+        </hr>
+        <h3>Message Content</h3>
+        <table id="MessageContentTable">
+            <!-- add content here in JS -->
+
+        </table>
+        <hr>
+        </hr>
+        <p></p>
+        <form th:action="@{/files}" method ="GET">
+            <input type="submit" value="Back to files and messages"/>
+        </form>
+        <p></p>
+        <form th:action="@{/top}" method="POST">
+            <input type="submit" value="Logout" />
+        </form>
+    </body>
+</html>
+

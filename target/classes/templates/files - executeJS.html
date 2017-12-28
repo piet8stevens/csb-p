@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>File manager</title>
+        <!-- Ask the browser to load the Javascript -->
+        <script th:src="@{javascript/executeJS.js}"></script>
+    </head>
+    <body onload = "executeJS('MessageTable');" >
+        <h2>File manager and Message Board for user <a th:text="${username}"></a></h2>
+        
+        <h3>Address: <a th:text="${address}"></a></h3>
+        <p></p>
+        <h2> File manager </h2>
+        <p></p>
+        <!-- <script type="text/javascript">console.log("alert with cookie"); alert(document.cookie);</script> -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Filename</th><th>Size</th><th>Content-Type</th><th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${files.empty}">
+                    <td colspan="4">No files</td>
+                </tr>
+                <tr th:each="file : ${files}">
+                    <td><a th:href="@{/files/{id}(id=${file.id})}" th:text="${file.name}">file name</a></td>
+                    <td th:text="${file.contentLength}">Content length</td>
+                    <td th:text="${file.contentType}">Content type</td>
+                    <td><form th:action="@{/files/{id}(id=${file.id})}" th:method="delete"><input type="submit" value="Delete"/></form></td>
+                </tr>
+            </tbody>
+        </table>
+        <p></p>
+        <form method="POST" action="/files" enctype="multipart/form-data">
+            <input type="file" name="file" id="file"/>
+            <input type="submit" name="username" value="Add!"/>
+        </form>        
+        <p></p>
+        <hr>
+        </hr>
+        <h2> Message board </h2>
+        <p></p>
+        <h3> Add message </h3>
+        <p></p>
+        <form method="POST" action="/messages">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Title:</td>
+                        <td>
+                            <input name="title" type="TEXT" id="title"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="TOP">Message: </td>
+                        <td>
+                            <textarea cols="60" name="content" rows="5" id="content"> </textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                <input name="message" type="SUBMIT" value="Submit message"/>
+            </p>
+        </form>
+        <hr>
+        </hr>
+        <h3>Message content</h3>
+        <hr>
+        </hr>
+        <h3>Message List</h3>
+        <table cellpadding="0" cellspacing="0"  border="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <a>
+                            <u></u>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0"  border="0" id="MessageTable">
+            <thead>
+                <tr>
+                    <th>Title</th><th>|</th><th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${messages.empty}">
+                    <td colspan="3">No messages yet.</td>
+                </tr>
+                <tr th:each="message : ${messages}">
+                    <td th:text="${message.title}">Content title</td>
+                    <td> | </td>
+                    <td><p th:text="${message.content}">Content content</p></td>
+                </tr>
+            </tbody>
+        </table>
+        <p></p>
+          
+        <form th:action="@{/top}" method="POST">
+            <input type="submit" value="Logout" />
+        </form>
+    </body>
+</html>
+
