@@ -23,6 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // copied from MegaUpload PAS 20171222
         // you can access the h2-console through /h2-console
+        /* faulty version kludges:
         http.csrf().disable();
         http.authorizeRequests().antMatchers("*").permitAll();
         http.formLogin().defaultSuccessUrl("/files", true);
@@ -31,8 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // http.headers().xssProtection().disable();
         // http.headers().contentTypeOptions();
         http.headers().cacheControl();
+        */
         
-        /* http.authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
                 //.anyRequest().authenticated()
                 .antMatchers("/form").permitAll()
@@ -40,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .permitAll();
         http.formLogin().defaultSuccessUrl("/files", true);
-        */
+        
     }
 
     @Autowired
