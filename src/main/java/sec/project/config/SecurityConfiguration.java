@@ -39,7 +39,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.anyRequest().authenticated()
                 .antMatchers("/form").permitAll()
                 .antMatchers("/top").permitAll();
-        http.formLogin()
+        http.csrf()
+                    .ignoringAntMatchers("/h2-console/*");
+                    //.requireCsrfProtectionMatcher(new AllExceptUrlsStartedWith("/h2-console"))
+        // http.headers().defaultsDisabled();
+        http.headers().frameOptions().disable();
+                    http.formLogin()
                 .permitAll();
         http.formLogin().defaultSuccessUrl("/files", true);
         

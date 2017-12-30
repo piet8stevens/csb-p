@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head lang="en">
         <meta charset="UTF-8" />
-        <title>File manager</title>
+        <title>File manager - fixed</title>
     </head>
     <body>
         <h2>File manager and Message Board for user <a th:text="${username}"></a></h2>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
         <p></p>
-        <form method="POST" action="/files" enctype="multipart/form-data">
+        <form method="POST" th:action="@{/files}" enctype="multipart/form-data">
             <input type="file" name="file" id="file"/>
             <input type="submit" name="username" value="Add!"/>
         </form>        
@@ -41,7 +41,7 @@
         <p></p>
         <h3> Add message </h3>
         <p></p>
-        <form method="POST" action="/messages">
+        <form method="POST" th:action="@{/messages}">
             <table>
                 <tbody>
                     <tr>

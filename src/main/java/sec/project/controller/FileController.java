@@ -67,6 +67,7 @@ public class FileController {
             return new ResponseEntity<>(fo.getContent(), headers, HttpStatus.CREATED);
         } else {
             System.out.printf("Could not find file to be opened %s\n", id);
+            return null;
         }
     }
 
