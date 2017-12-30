@@ -54,16 +54,20 @@ public class FileController {
     }
 
     @RequestMapping(value = "/files/{id}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> viewFile(@PathVariable Long id) {
+    public ResponseEntity<byte[]> viewFile(Authentication auth, @PathVariable Long id) {
         System.out.println("viewFile in FileController");
         FileObject fo = fileRepository.findOne(id);
+        
+        if (fo.getAccount().getUsername().equals(auth.getName())) {
+            final HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(fo.getContentType()));
+            headers.add("Content-Disposition", "attachment; filename=" + fo.getName());
+            headers.setContentLength(fo.getContentLength());
 
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(fo.getContentType()));
-        headers.add("Content-Disposition", "attachment; filename=" + fo.getName());
-        headers.setContentLength(fo.getContentLength());
-
-        return new ResponseEntity<>(fo.getContent(), headers, HttpStatus.CREATED);
+            return new ResponseEntity<>(fo.getContent(), headers, HttpStatus.CREATED);
+        } else {
+            System.out.printf("Could not find file to be opened %s\n", id);
+        }
     }
 
     @RequestMapping(value = "/files", method = RequestMethod.POST)
