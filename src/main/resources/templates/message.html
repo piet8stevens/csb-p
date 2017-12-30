@@ -3,23 +3,6 @@
     <head lang="en">
         <meta charset="UTF-8" />
         <title>Message manager</title>
-            <script th:inline="javascript"> 
-                /*<![CDATA[*/
-            function addMessage() {
-                var msgtitle = /*[[${messagetitle}]]*/ "atitle";
-                var msgcontent = /*[[${messagecontent}]]*/ "acontent";
-                console.log('MessageContentTable:', msgtitle, "|", msgcontent);
-                var domelement = document.getElementById("MessageContentTable");
-                var tbody = document.createElement("tbody");
-                tbody.innerHTML = "<tr><td><b>Title:<b></td><td>" + msgtitle + "</td></tr><tr><td><b>Message:</b><td>" + msgcontent + "</td></tr>";
-
-                domelement.appendChild(tbody);
-                var arr = tbody.getElementsByTagName('script');
-                for (var n = 0; n < arr.length; n++)
-                    eval(arr[n].innerHTML);//run script inside div
-            }
-            /*]]>*/
-            </script>
     </head>
     <body onload="addMessage();">
         <hr>
@@ -53,8 +36,20 @@
         </hr>
         <h3>Message Content</h3>
         <table id="MessageContentTable">
-            <!-- add content here in JS -->
-
+            <tbody>
+                <tr>
+                    <td><b>Title:</b></td>
+                </tr>
+                <tr>
+                    <td th:utext="${messagetitle}">Title Template</td>
+                </tr>
+                <tr>
+                    <td><b>Message:</b></td>
+                </tr>
+                <tr>
+                    <td th:utext="${messagecontent}">Body Template</td>   
+                </tr>
+            </tbody>
         </table>
         <hr>
         </hr>
